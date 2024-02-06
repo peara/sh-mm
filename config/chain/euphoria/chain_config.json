@@ -8,7 +8,6 @@
   "chain_id": "euphoria-2",
   "bech32_prefix": "aura",
   "daemon_name": "aurad",
-  "node_home": "$HOME/.aura",
   "slip44": 118,
   "fees": {
     "fee_tokens": [

@@ -26,7 +26,7 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const signerOptions: SignerOptions = {
     signingCosmwasm: () => {
       return {
-        gasPrice: GasPrice.fromString('0.0025uaura'),
+        gasPrice: GasPrice.fromString('0.0025ueaura'),
       } as any;
     },
     preferredSignType: () => {

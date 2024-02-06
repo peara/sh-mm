@@ -20,6 +20,7 @@ import {
   ButtonNotExist,
   ButtonRejected,
 } from "./Connect";
+import clsx from "clsx";
 
 export function Wallet() {
   const {
@@ -70,19 +71,22 @@ export function Wallet() {
         {address
           ? <ClipboardCopyText text={address} truncate="middle" />
           : null}
+
         <Box
           my="$8"
           flex="1"
           width="full"
-          display="flex"
-          height="$16"
-          overflow="hidden"
-          justifyContent="center"
-          px={{ mobile: "$8", tablet: "$10" }}
+          className={clsx(
+            "flex",
+            "h-$16",
+            "overflow-hidden",
+            "justify-center",
+            "px-mobile-$8",
+            "px-tablet-$10"
+          )}
         >
           {ConnectButton}
         </Box>
-
         {message && [WalletStatus.Error, WalletStatus.Rejected].includes(status)
           ? <Warning text={`${wallet?.prettyName}: ${message}`} />
           : null}

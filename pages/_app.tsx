@@ -7,9 +7,6 @@ import { ChainProvider } from "@cosmos-kit/react";
 import { assets, chains } from "chain-registry";
 import {
   Box,
-  ThemeProvider,
-  useColorModeValue,
-  useTheme,
 } from "@interchain-ui/react";
 import { GasPrice } from "@cosmjs/stargate";
 import { Chain, AssetList } from '@chain-registry/types';
@@ -21,8 +18,6 @@ const mainnet = chains.filter((chain) => chain.chain_name === "aura")[0];
 const AssetsMainnet = assets.find((asset) => asset.chain_name === 'aura');
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
-  const { themeClass } = useTheme();
-
   const signerOptions: SignerOptions = {
     signingCosmwasm: () => {
       return {
@@ -35,38 +30,35 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
   };
 
   return (
-    <ThemeProvider>
-      <ChainProvider
-        chains={[mainnet, Euphoria]}
-        assetLists={[
-          AssetsMainnet,
-          AssetEuphoria,
-        ] as AssetList[]}
-        wallets={wallets}
-        walletConnectOptions={{
-          signClient: {
-            projectId: "a8510432ebb71e6948cfd6cde54b70f7",
-            relayUrl: "wss://relay.walletconnect.org",
-            metadata: {
-              name: "CosmosKit Template",
-              description: "CosmosKit dapp template",
-              url: "https://docs.cosmology.zone/cosmos-kit/",
-              icons: [],
-            },
+    <ChainProvider
+      chains={[mainnet, Euphoria]}
+      assetLists={[
+        AssetsMainnet,
+        AssetEuphoria,
+      ] as AssetList[]}
+      wallets={wallets}
+      walletConnectOptions={{
+        signClient: {
+          projectId: "a8510432ebb71e6948cfd6cde54b70f7",
+          relayUrl: "wss://relay.walletconnect.org",
+          metadata: {
+            name: "CosmosKit Template",
+            description: "CosmosKit dapp template",
+            url: "https://docs.cosmology.zone/cosmos-kit/",
+            icons: [],
           },
-        }}
-        // @ts-ignore
-        signerOptions={signerOptions}
+        },
+      }}
+      // @ts-ignore
+      signerOptions={signerOptions}
+    >
+      <Box
+        minHeight="100dvh"
+        backgroundColor="white"
       >
-        <Box
-          className={themeClass}
-          minHeight="100dvh"
-          backgroundColor={useColorModeValue("$white", "$background")}
-        >
-          <Component {...pageProps} />
-        </Box>
-      </ChainProvider>
-    </ThemeProvider>
+        <Component {...pageProps} />
+      </Box>
+    </ChainProvider>
   );
 }
 

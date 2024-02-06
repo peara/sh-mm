@@ -30,7 +30,7 @@ query All($contract_address: String) {
 }
 `;
 
-const contractAddress = "aura1cnwzxt48n3hfeqxzsrzpnxtmn6248gp2j9rgnv7u787mdj7psf8s6mt2df";
+const contractAddress = "aura14rrxnmkpnvcmeknjzma0myeepdxaa86wh5837959ek37dmrl2lxqfg66z0";
 
 export const fetchNfts = async () => {
   const response = await fetch("https://graphql.staging.seekhype.io/v1/graphql", {

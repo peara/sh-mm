@@ -5,6 +5,22 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import clsx from "clsx";
+
+
+enum NftType {
+  RED = "RED",
+  BLUE = "BLUE",
+  WHITE = "WHITE",
+  GOLD = "GOLD",
+}
+
+const nftTypeColors = {
+  [NftType.RED]: "bg-red-100",
+  [NftType.BLUE]: "bg-blue-100",
+  [NftType.WHITE]: "bg-white-100",
+  [NftType.GOLD]: "bg-yellow-100",
+};
 
 export const NftTable = ({ nfts }: any) => {
   const [sweepConfig, setSweepConfig] = useState<any>({ price: 1000000, quantity: 10 });
@@ -15,6 +31,7 @@ export const NftTable = ({ nfts }: any) => {
         token_id: nft.token_id,
         image: nft.metadata.s3_image,
         name: nft.metadata.name,
+        type: nft.metadata.attributes[0].value as NftType,
         owner_address: nft.owner_address,
         price: nft.listings[0]?.latest_price,
       }
@@ -103,6 +120,7 @@ export const NftTable = ({ nfts }: any) => {
             <TableHead />
             <TableHead>Token ID</TableHead>
             <TableHead>Name</TableHead>
+            <TableHead>Type</TableHead>
             <TableHead>Owned</TableHead>
             <TableHead>Price</TableHead>
           </TableRow>
@@ -123,6 +141,7 @@ export const NftTable = ({ nfts }: any) => {
                 </span>
               </TableCell>
               <TableCell>{nft.name}</TableCell>
+              <TableCell className={nft.type ? nftTypeColors[nft.type as NftType] : ''}>{nft.type}</TableCell>
               <TableCell>{nft.owner_address === address ? "own" : ""}</TableCell>
               <TableCell>{nft.price}</TableCell>
             </TableRow>

@@ -12,13 +12,10 @@ export default function Home() {
     (
       async () => {
         const data = await fetchNfts();
-        console.log(data);
         setNfts(data.data.nfts);
       }
     )();
   }, []);
-
-  console.log('NFT', nfts);
 
   return (
     <Layout>

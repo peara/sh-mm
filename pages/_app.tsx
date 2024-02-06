@@ -11,21 +11,37 @@ import {
   useColorModeValue,
   useTheme,
 } from "@interchain-ui/react";
+import { GasPrice } from "@cosmjs/stargate";
+import { Chain, AssetList } from '@chain-registry/types';
+
+import Euphoria from '@/config/chain/euphoria/chain_config.json';
+import AssetEuphoria from '@/config/chain/euphoria/asset.json';
+
+const mainnet = chains.filter((chain) => chain.chain_name === "aura")[0];
+const AssetsMainnet = assets.find((asset) => asset.chain_name === 'aura');
 
 function CreateCosmosApp({ Component, pageProps }: AppProps) {
   const { themeClass } = useTheme();
 
   const signerOptions: SignerOptions = {
-    // signingStargate: () => {
-    //   return getSigningCosmosClientOptions();
-    // }
+    signingCosmwasm: () => {
+      return {
+        gasPrice: GasPrice.fromString('0.0025uaura'),
+      } as any;
+    },
+    preferredSignType: () => {
+      return "amino";
+    },
   };
 
   return (
     <ThemeProvider>
       <ChainProvider
-        chains={chains.filter((chain) => chain.chain_name === "aura")}
-        assetLists={assets}
+        chains={[mainnet, Euphoria]}
+        assetLists={[
+          AssetsMainnet,
+          AssetEuphoria,
+        ] as AssetList[]}
         wallets={wallets}
         walletConnectOptions={{
           signClient: {

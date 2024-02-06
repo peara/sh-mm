@@ -1,3 +1,6 @@
+import contracts from "@/config/contracts.json";
+import { CHAIN_NAME } from "@/config";
+
 const queryNfts = `
 query All($contract_address: String) {
 	nfts(where: {
@@ -30,14 +33,14 @@ query All($contract_address: String) {
 }
 `;
 
-const contractAddress = "aura14rrxnmkpnvcmeknjzma0myeepdxaa86wh5837959ek37dmrl2lxqfg66z0";
+const contractAddress = contracts[CHAIN_NAME].collection_contract;
 
 export const fetchNfts = async () => {
   const response = await fetch("https://graphql.staging.seekhype.io/v1/graphql", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "x-hasura-admin-secret": "staging@123"
+      "x-hasura-admin-secret": "kKEeh13#EUhh"
     },
     body: JSON.stringify({
       query: queryNfts,

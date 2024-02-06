@@ -7,6 +7,11 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import clsx from "clsx";
 
+import { CHAIN_NAME } from "@/config";
+import contracts from "@/config/contracts.json";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
+
+console.log('CHAIN_NAME', CHAIN_NAME);
 
 enum NftType {
   RED = "RED",
@@ -23,7 +28,7 @@ const nftTypeColors = {
 };
 
 export const NftTable = ({ nfts }: any) => {
-  const [sweepConfig, setSweepConfig] = useState<any>({ price: 1000000, quantity: 10 });
+  const [sweepConfig, setSweepConfig] = useState<any>({ price: 1000000, quantity: 10, type: "" });
   const normalizedData = useMemo(() => {
     return nfts.map((nft: any) => {
       return {
@@ -45,7 +50,7 @@ export const NftTable = ({ nfts }: any) => {
 
     // filter listings below a price and quantity
     const selectedNfts = normalizedData.filter((nft: any) => {
-      return nft.price <= sweepConfig.price
+      return nft.price <= sweepConfig.price && (sweepConfig.type === "" || nft.type === sweepConfig.type);
     }).slice(0, sweepConfig.quantity);
     console.log(selectedNfts);
 
@@ -54,7 +59,7 @@ export const NftTable = ({ nfts }: any) => {
     // generate buy messages
     const msgs = selectedNfts.map((nft: any) => {
       return {
-        contractAddress: "aura1fd4zehc2alny703w3z2sqgqnyjlxdk8uyvtlecz6e7hvl3g74aas9r4ydu",
+        contractAddress: contracts[CHAIN_NAME].marketplace,
         msg: {
           buy: {
             contract_address: nft.contract_address,
@@ -80,7 +85,7 @@ export const NftTable = ({ nfts }: any) => {
     <div>
       <Dialog>
         <DialogTrigger asChild>
-          <Button variant="outline">Sweep</Button>
+          <Button variant="outline">Sweep Floor</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px] bg-white">
           <DialogHeader>
@@ -106,6 +111,30 @@ export const NftTable = ({ nfts }: any) => {
                   setSweepConfig({ ...sweepConfig, quantity: e.currentTarget.value ? Number.parseInt(e.currentTarget.value, 10) : 0 })
                 }}
                 className="col-span-3" />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="type" className="text-right">
+                Type
+              </Label>
+              {/* <Select id="type" value={sweepConfig.type}
+                onChange={(e) => {
+                  setSweepConfig({ ...sweepConfig, type: e.currentTarget.value})
+                }}
+                className="col-span-3" /> */}
+              <Select onValueChange={(e: any) => {
+                setSweepConfig({ ...sweepConfig, type: e })
+              }}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue>{sweepConfig.type || "any"}</SelectValue>
+                </SelectTrigger>
+                <SelectContent className="bg-gray-100">
+                  <SelectGroup>
+                    {Object.values(NftType).map((type) => (
+                      <SelectItem key={type} value={type}>{type}</SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <DialogFooter>

@@ -42,13 +42,14 @@ export function Wallet() {
     [WalletStatus.Rejected]: <ButtonRejected onClick={connect} />,
     [WalletStatus.NotExist]: <ButtonNotExist onClick={openView} />,
   }[status] || <ButtonConnect onClick={connect} />;
+  console.log('chain', chain);
 
   return (
     <Box py="$16">
       <Stack attributes={{ mb: "$12", justifyContent: "center" }}>
         <Chain
           name={chain.pretty_name}
-          logo={getChainLogo(chain.chain_name)!}
+          logo={chain.logo_URIs?.svg}
         />
       </Stack>
       <Stack

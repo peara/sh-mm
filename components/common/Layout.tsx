@@ -2,6 +2,7 @@ import Head from "next/head";
 import { Container } from "@interchain-ui/react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
+import { Toaster } from "@/components/ui/toaster"
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -13,6 +14,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </Head>
       {/* <Header /> */}
       {children}
+      <Toaster />
       {/* <Footer /> */}
     </Container>
   );

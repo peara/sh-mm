@@ -40,7 +40,6 @@ export const fetchNfts = async () => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "x-hasura-admin-secret": "kKEeh13#EUhh"
     },
     body: JSON.stringify({
       query: queryNfts,
